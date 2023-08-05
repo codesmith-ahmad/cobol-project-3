@@ -28,10 +28,21 @@ The base code is in `src`.
  
 `git pull origin main`
 
-## Project 3 Transactions
+## Checklist
+
+- [ ] Convert STUFILE.txt to Indexed Sequential file. (Others preserves format)
+- [ ] Update STUFILE on-line [transactions](#transactions) using a **screen section**
+- [ ] Design the layout of the interactive Screen Section for user input and output.
+- [ ] Implement logic to search the Indexed Sequential file for the entered student number, display if found
+- [ ] Implement the logic to update the Indexed Sequential Student File with the modified data.
+- [ ] Design the structure for the Program Table in a COPY member and implement the logic to include it.
+- [ ] Migrate student average subprogram to external file, use CALL to invoke
+- [ ] Function chart
+
+## Project 3 Transactions <a id="transactions"></a>
 
 There are two transactions that must be used to update records in the Indexed Sequential Student File   
-For Student Number 411119 process a payment of   50.00 against the tuition owed.    
-For Student Number 111111 process a payment of  500.00 against the tuition owed.    
+For Student Number 411119 process a payment of  50.00 against the tuition owed.    
+For Student Number 111111 process a payment of 500.00 against the tuition owed.    
 
 Use PIC9(5)V99 as the picture structure for the payment field.
