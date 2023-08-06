@@ -22,15 +22,15 @@ The base code is in `src`.
 
 #### Push
 
-`git push -u origin main`
+`git push -u origin main` (first time only, then just `git push`)
 
 #### Pull
  
-`git pull origin main`
+`git pull origin main` (first time only, then just `git pull`)
 
 ## Checklist
 
-- [ ] Convert STUFILE.txt to Indexed Sequential file. (Others preserves format)
+- [x] Convert STUFILE.txt to Indexed Sequential file.
 - [ ] Update STUFILE on-line [transactions](#transactions) using a **screen section**
 - [ ] Design the layout of the interactive Screen Section for user input and output.
 - [ ] Implement logic to search the Indexed Sequential file for the entered student number, display if found
