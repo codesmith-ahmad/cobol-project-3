@@ -1,4 +1,4 @@
-Our main program is called STUDENT-REPORT.
+Our main program is called STUDENT-REPORT. STUDENT-REPORT calls MODULE-1 to convert STUFILE.txt to STUFILE.dat. STUDENT-REPORT should then read STUFILE.dat and create an interactive screen where the user can update (rewrite) an entry with a provided key.
 
 **Summary**:
 
