@@ -13,7 +13,7 @@ The base code is in `src`.
 
 git|Command
 -|-
-branch|`git branch (branch)` `git checkout (branch)`
+branch|`git branch (branch)`<br>`git checkout (branch)`
 pull|`git pull origin (branch)`
 commit|`git commit -am "message"`
 push|`git push -u origin (branch)`
