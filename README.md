@@ -9,26 +9,17 @@ The base code is in `src`.
 `git clone https://github.com/CavalierAhmad/cobol-project-3`
 3. Remember where you put it so you can navigate to it
 
-## Commands
+## Git commands
 
-#### New branch
+git|Command
+-|-
+branch|`git branch (branch)` `git checkout (branch)`
+pull|`git pull origin (branch)`
+commit|`git commit -am "message"`
+push|`git push -u origin (branch)`
 
-`git branch [name]`
-`git checkout [name]`
 
-#### Commit
-
-`git commit -am "message"`
-
-#### Push
-
-`git push -u origin main` (first time only, then just `git push`)
-
-#### Pull
- 
-`git pull origin main` (first time only, then just `git pull`)
-
-## Checklist
+## TODO
 
 - [x] Convert STUFILE.txt to Indexed Sequential file.
 - [ ] Update STUFILE on-line [transactions](#transactions) using a **screen section**
