@@ -6,7 +6,7 @@
        FILE-CONTROL.
            SELECT TXT-FILE ASSIGN TO "../../STUFILE.txt"
                ORGANIZATION IS LINE SEQUENTIAL.
-           SELECT DAT-FILE ASSIGN TO "../../STUFILE.DAT"
+           SELECT DAT-FILE ASSIGN TO "../../STUFILE.dat"
                ORGANIZATION IS INDEXED
                ACCESS MODE IS SEQUENTIAL
                RECORD KEY IS F1
