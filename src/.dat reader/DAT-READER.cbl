@@ -1,0 +1,69 @@
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. DAT-READER.
+
+       ENVIRONMENT DIVISION.
+       INPUT-OUTPUT SECTION.
+       FILE-CONTROL.
+           SELECT DAT-FILE ASSIGN TO "../../STUFILE.dat"
+               ORGANIZATION IS INDEXED
+               ACCESS MODE IS SEQUENTIAL
+               RECORD KEY IS STUDENT-NUMBER
+               FILE STATUS IS FILE-STATUS.
+
+       DATA DIVISION.
+       FILE SECTION.
+       FD DAT-FILE.
+       01 STUDENT-RECORD.
+           05 STUDENT-NUMBER   PIC 9(6).
+           05 TUITION-OWED     PIC 9(4)V99.
+           05 STUDENT-NAME     PIC X(40).
+           05 PROGRAM-OF-STUDY PIC X(6).
+           05 COURSE-CODE-1    PIC X(7).
+           05 COURSE-AVG-1     PIC 9(3).
+           05 COURSE-CODE-2    PIC X(7).
+           05 COURSE-AVG-2     PIC 9(3).
+           05 COURSE-CODE-3    PIC X(7).
+           05 COURSE-AVG-3     PIC 9(3).
+           05 COURSE-CODE-4    PIC X(7).
+           05 COURSE-AVG-4     PIC 9(3).
+           05 COURSE-CODE-5    PIC X(7).
+           05 COURSE-AVG-5     PIC 9(3).
+
+       WORKING-STORAGE SECTION.
+           01 FILE-STATUS PIC X(2).
+           01 EOF         PIC 9.
+           01 COUNTER     PIC 999.
+
+       PROCEDURE DIVISION.
+
+           OPEN INPUT DAT-FILE.
+           READ DAT-FILE AT END ADD 1 TO EOF.
+           ADD 1 TO COUNTER.
+           DISPLAY "READ " COUNTER ": " STUDENT-RECORD.
+
+           READ DAT-FILE AT END ADD 1 TO EOF.
+           ADD 1 TO COUNTER.
+           DISPLAY "READ " COUNTER ": " STUDENT-RECORD.
+
+           READ DAT-FILE AT END ADD 1 TO EOF.
+           ADD 1 TO COUNTER.
+           DISPLAY "READ " COUNTER ": " STUDENT-RECORD.
+
+           DISPLAY STUDENT-NUMBER.
+           DISPLAY TUITION-OWED.
+           DISPLAY STUDENT-NAME.
+           DISPLAY PROGRAM-OF-STUDY.
+           DISPLAY COURSE-CODE-1.
+           DISPLAY COURSE-AVG-1.
+           DISPLAY COURSE-CODE-2.
+           DISPLAY COURSE-AVG-2.
+           DISPLAY COURSE-CODE-3.
+           DISPLAY COURSE-AVG-3.
+           DISPLAY COURSE-CODE-4.
+           DISPLAY COURSE-AVG-4.
+           DISPLAY COURSE-CODE-5.
+           DISPLAY COURSE-AVG-5.
+
+           CLOSE DAT-FILE.
+
+       END PROGRAM DAT-READER.
