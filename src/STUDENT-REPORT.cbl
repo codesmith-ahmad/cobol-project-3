@@ -120,9 +120,9 @@
            PERFORM 202-GENERATE-RECORDS.
 
       *    FOR TESTING PURPOSES ONLY, FIGURE OUT WHERE TO PUT IT LATER
+           PERFORM 000-CONVERT-TXT2DAT.
            DISPLAY "***********BEGIN TESTING**************".
-           MOVE 0 TO READ-COUNTER.
-           PERFORM 000-TEST-CONVERT-TXT2DAT.
+           PERFORM 001-TEST-CONVERT-TXT2DAT.
            DISPLAY "***********END TESTING**************".
 
            PERFORM 203-CLOSE-FILES.
@@ -207,46 +207,69 @@
                    END-IF
                END-PERFORM.
 
-       000-TEST-CONVERT-TXT2DAT.
-
-           MOVE 0 TO EOF.
+       000-CONVERT-TXT2DAT.
+           DISPLAY "ACCESSED 000".
+           MOVE 0 TO EOF READ-COUNTER WRITE-COUNTER.
            PERFORM UNTIL EOF = 1
-               READ STUDENT-FILE
-                   AT END
-                       ADD 1 TO EOF
-                   NOT AT END
-                       ADD 1 TO READ-COUNTER
-                       DISPLAY "@000 READ " READ-COUNTER ": "
-                                                          STUDENT-RECORD
-                       PERFORM POPULATE-INDEXED-RECORD
-                       WRITE INDEXED-RECORD
-                           INVALID KEY
-                               DISPLAY "INVALID KEY: " STUDENT-NUMBER
-                           NOT INVALID KEY
-                               DISPLAY "KEY OK, ADDING: " INDEXED-RECORD
-                               ADD 1 TO WRITE-COUNTER
-                               READ INDEXED-FILE
-                               DISPLAY "CONFIRM ADDED " INDEXED-RECORD
-                       END-WRITE
+               READ STUDENT-FILE AT END ADD 1 TO EOF NOT AT END
+                   ADD 1 TO READ-COUNTER
+                   DISPLAY "<<< STUFILE.txt: " STUDENT-RECORD
+      -                                   " (reading #" READ-COUNTER ")"
+                   PERFORM POPULATE-INDEXED-RECORD
+                   WRITE INDEXED-RECORD
+                       INVALID KEY
+                           DISPLAY "INVALID KEY: " STUDENT-NUMBER
+                       NOT INVALID KEY
+                           ADD 1 TO WRITE-COUNTER
+                           DISPLAY "KEY OK"
+                           DISPLAY ">>> STUFILE.dat: " INDEXED-RECORD
+      -                                  " (writing #" WRITE-COUNTER ")"
+                   END-WRITE
                END-READ
            END-PERFORM.
+           DISPLAY "ADDED " WRITE-COUNTER " RECORDS".
 
+       001-TEST-CONVERT-TXT2DAT.
+      *    FILE IS SET AS OUTPUT. NEED TO RESET AS INPUT FOR READING
+           CLOSE INDEXED-FILE. OPEN INPUT INDEXED-FILE.
+           MOVE 0 TO EOF READ-COUNTER.
+           PERFORM UNTIL EOF=1
+               READ INDEXED-FILE AT END ADD 1 TO EOF NOT AT END
+               ADD 1 TO READ-COUNTER
+               PERFORM DISPLAY-RECORD
+               DISPLAY "COUNTED " READ-COUNTER " RECORDS"
+           END-PERFORM.
 
        POPULATE-INDEXED-RECORD.
-           DISPLAY "POPULATE ACCESSED".
-               MOVE STUDENT-NUMBER   TO I-STUDENT-NUMBER
-               MOVE TUITION-OWED     TO I-TUITION-OWED
-               MOVE STUDENT-NAME     TO I-STUDENT-NAME
-               MOVE PROGRAM-OF-STUDY TO I-PROGRAM-OF-STUDY
-               MOVE COURSE-CODE-1    TO I-COURSE-CODE-1
-               MOVE COURSE-AVG-1     TO I-COURSE-AVG-1
-               MOVE COURSE-CODE-2    TO I-COURSE-CODE-2
-               MOVE COURSE-AVG-2     TO I-COURSE-AVG-2
-               MOVE COURSE-CODE-3    TO I-COURSE-CODE-3
-               MOVE COURSE-AVG-3     TO I-COURSE-AVG-3
-               MOVE COURSE-CODE-4    TO I-COURSE-CODE-4
-               MOVE COURSE-AVG-4     TO I-COURSE-AVG-4
-               MOVE COURSE-CODE-5    TO I-COURSE-CODE-5
-               MOVE COURSE-AVG-5     TO I-COURSE-AVG-5.
+           MOVE STUDENT-NUMBER   TO I-STUDENT-NUMBER
+           MOVE TUITION-OWED     TO I-TUITION-OWED
+           MOVE STUDENT-NAME     TO I-STUDENT-NAME
+           MOVE PROGRAM-OF-STUDY TO I-PROGRAM-OF-STUDY
+           MOVE COURSE-CODE-1    TO I-COURSE-CODE-1
+           MOVE COURSE-AVG-1     TO I-COURSE-AVG-1
+           MOVE COURSE-CODE-2    TO I-COURSE-CODE-2
+           MOVE COURSE-AVG-2     TO I-COURSE-AVG-2
+           MOVE COURSE-CODE-3    TO I-COURSE-CODE-3
+           MOVE COURSE-AVG-3     TO I-COURSE-AVG-3
+           MOVE COURSE-CODE-4    TO I-COURSE-CODE-4
+           MOVE COURSE-AVG-4     TO I-COURSE-AVG-4
+           MOVE COURSE-CODE-5    TO I-COURSE-CODE-5
+           MOVE COURSE-AVG-5     TO I-COURSE-AVG-5.
+
+       DISPLAY-RECORD.
+           DISPLAY I-STUDENT-NUMBER
+           DISPLAY I-TUITION-OWED
+           DISPLAY I-STUDENT-NAME
+           DISPLAY I-PROGRAM-OF-STUDY
+           DISPLAY I-COURSE-CODE-1
+           DISPLAY I-COURSE-AVG-1
+           DISPLAY I-COURSE-CODE-2
+           DISPLAY I-COURSE-AVG-2
+           DISPLAY I-COURSE-CODE-3
+           DISPLAY I-COURSE-AVG-3
+           DISPLAY I-COURSE-CODE-4
+           DISPLAY I-COURSE-AVG-4
+           DISPLAY I-COURSE-CODE-5
+           DISPLAY I-COURSE-AVG-5.
 
        END PROGRAM STUDENT-REPORT.
