@@ -36,7 +36,7 @@
                05 PROGRAM-CODE     PIC X(6).
                05 PROGRAM-NAME     PIC X(20).
 
-               FD STUDENT-FILE.
+           FD STUDENT-FILE.
            01 STUDENT-RECORD.
                05 STUDENT-NUMBER   PIC 9(6).
                05 TUITION-OWED     PIC 9(4)V99.
@@ -53,7 +53,7 @@
                05 COURSE-CODE-5    PIC X(7).
                05 COURSE-AVG-5     PIC 9(3).
 
-               FD OUTPUT-FILE.
+           FD OUTPUT-FILE.
            01 STUDENT-OUTPUT-FILE.
                05 STUDENT-NAME-OUT PIC X(40).
                05 FILLER           PIC X(3) VALUE SPACES.
@@ -93,7 +93,7 @@
            01 COLUMN-HEADER.
                05 FILLER PIC X(40) VALUE "NAME".
                05 FILLER PIC X(3).
-               05 FILLER PIC X(7) VALUE "AVERAGE".
+               05 FILLER PIC X(7)  VALUE "AVERAGE".
                05 FILLER PIC X(4).
                05 FILLER PIC X(20) VALUE "PROGRAM".
                05 FILLER PIC X(4).
@@ -105,12 +105,14 @@
            01 COUNTERS.
                05 READ-COUNTER PIC 99.
                05 WRITE-COUNTER PIC 99.
+               05 TMP-COUNTER PIC 99.
 
            01 FLAGS.
                05 EOF-STU PIC X VALUE "N".
                05 EOF-PROG PIC X VALUE "N".
                05 SEARCH-FLAG PIC X VALUE "N".
                05 EOF-TABLE PIC X VALUE "N".
+               05 EOF PIC 9 VALUE 0.
 
        PROCEDURE DIVISION.
        100-MAIN.
@@ -118,7 +120,10 @@
            PERFORM 202-GENERATE-RECORDS.
 
       *    FOR TESTING PURPOSES ONLY, FIGURE OUT WHERE TO PUT IT LATER
-           PERFORM 000-TEST-CONVERT-TXT2DAT UNTIL EOF-STU = 'Y'.
+           DISPLAY "***********BEGIN TESTING**************".
+           MOVE 0 TO READ-COUNTER.
+           PERFORM 000-TEST-CONVERT-TXT2DAT.
+           DISPLAY "***********END TESTING**************".
 
            PERFORM 203-CLOSE-FILES.
            STOP RUN.
@@ -168,6 +173,9 @@
                ADD 1 TO READ-COUNTER
            END-PERFORM.
            MOVE 'N' TO EOF-STU.
+      *    Reset file for later use
+           CLOSE STUDENT-FILE. OPEN INPUT STUDENT-FILE.
+
 
        305-DISPLAY-STATS.
            DISPLAY "READ COUNT: " READ-COUNTER.
@@ -200,19 +208,45 @@
                END-PERFORM.
 
        000-TEST-CONVERT-TXT2DAT.
-           DISPLAY "***********BEGIN TESTING**************".
 
-           READ STUDENT-FILE INTO INDEXED-RECORD
-               AT END MOVE 'Y' TO EOF-STU
-               ADD 1 TO READ-COUNTER
-               DISPLAY "@000 READ " READ-COUNTER ": " INDEXED-RECORD.
+           MOVE 0 TO EOF.
+           PERFORM UNTIL EOF = 1
+               READ STUDENT-FILE
+                   AT END
+                       ADD 1 TO EOF
+                   NOT AT END
+                       ADD 1 TO READ-COUNTER
+                       DISPLAY "@000 READ " READ-COUNTER ": "
+                                                          STUDENT-RECORD
+                       PERFORM POPULATE-INDEXED-RECORD
+                       WRITE INDEXED-RECORD
+                           INVALID KEY
+                               DISPLAY "INVALID KEY: " STUDENT-NUMBER
+                           NOT INVALID KEY
+                               DISPLAY "KEY OK, ADDING: " INDEXED-RECORD
+                               ADD 1 TO WRITE-COUNTER
+                               READ INDEXED-FILE
+                               DISPLAY "CONFIRM ADDED " INDEXED-RECORD
+                       END-WRITE
+               END-READ
+           END-PERFORM.
 
-           WRITE INDEXED-RECORD
-               INVALID KEY DISPLAY "INVALID KEY: " STUDENT-NUMBER
-           NOT INVALID KEY DISPLAY "KEY OK, WRITING: " INDEXED-RECORD
-           ADD 1 TO WRITE-COUNTER.
-           DISPLAY "W-COUNTER: " WRITE-COUNTER.
 
-           DISPLAY "***********END TESTING**************".
+       POPULATE-INDEXED-RECORD.
+           DISPLAY "POPULATE ACCESSED".
+               MOVE STUDENT-NUMBER   TO I-STUDENT-NUMBER
+               MOVE TUITION-OWED     TO I-TUITION-OWED
+               MOVE STUDENT-NAME     TO I-STUDENT-NAME
+               MOVE PROGRAM-OF-STUDY TO I-PROGRAM-OF-STUDY
+               MOVE COURSE-CODE-1    TO I-COURSE-CODE-1
+               MOVE COURSE-AVG-1     TO I-COURSE-AVG-1
+               MOVE COURSE-CODE-2    TO I-COURSE-CODE-2
+               MOVE COURSE-AVG-2     TO I-COURSE-AVG-2
+               MOVE COURSE-CODE-3    TO I-COURSE-CODE-3
+               MOVE COURSE-AVG-3     TO I-COURSE-AVG-3
+               MOVE COURSE-CODE-4    TO I-COURSE-CODE-4
+               MOVE COURSE-AVG-4     TO I-COURSE-AVG-4
+               MOVE COURSE-CODE-5    TO I-COURSE-CODE-5
+               MOVE COURSE-AVG-5     TO I-COURSE-AVG-5.
 
        END PROGRAM STUDENT-REPORT.
