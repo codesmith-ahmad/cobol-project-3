@@ -4,4 +4,4 @@ SMITH, FRED                                     82    COMPUTER TECHNICIAN     2,
 CROMWELL, OLIVER                                70    COMPUTER SIENCE           920.00
 HEHEINLEN, HERBERT                              90    COMPUTER PRGRAMMER      1,500.00
 ASSIMOV, ISAAC                                  47    COMPUTER PRGRAMMER         50.00
-Al-Jabbouri, Ahmad                              47    COMPUTER PRGRAMMER      9,999.99
+-----------------NAME-------------------       199    COMPUTER PRGRAMMER      9,999.99

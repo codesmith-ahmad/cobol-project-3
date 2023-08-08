@@ -1,23 +1,4 @@
-# Feel free to put some notes here
-
-The base code is in `src`.
-
-## First time set up
-
-1. Open your terminal
-2. Enter this command:
-`git clone https://github.com/CavalierAhmad/cobol-project-3`
-3. Remember where you put it so you can navigate to it
-
-## Git commands
-
-git|Command
--|-
-branch|`git branch (branch)`<br>`git checkout (branch)`
-pull|`git pull origin (branch)`
-commit|`git add .` then `git commit -am "message"`
-push|`git push -u origin (branch)`
-
+Use `STUFILE.dat` for your tests. The converter program is located at `000-CONVERT-TXT2DAT`. It doesn't affect the code, it should be isolated from the rest until we got everything in order.
 
 ## TODO
 
@@ -30,10 +11,26 @@ push|`git push -u origin (branch)`
 - [ ] Migrate student average subprogram to external file, use CALL to invoke
 - [ ] Function chart
 
-## Project 3 Transactions <a id="transactions"></a>
+## Git commands
+
+git|Command
+-|-
+branch|`git branch (branch)` then `git checkout (branch)`
+pull|`git pull origin (branch)`
+commit|`git add .` then `git commit -am "message"`
+push|`git push -u origin (branch)`
+
+[there's a git GUI in windows](git.png)
+
+<br></br>
+#### Project 3 Transactions <a id="transactions"></a>
 
 There are two transactions that must be used to update records in the Indexed Sequential Student File   
 For Student Number 411119 process a payment of  50.00 against the tuition owed.    
 For Student Number 111111 process a payment of 500.00 against the tuition owed.    
 
 Use PIC9(5)V99 as the picture structure for the payment field.
+
+- How to create indexed sequential file
+- How to read indexed sequential file
+- How to use CALL and modules
