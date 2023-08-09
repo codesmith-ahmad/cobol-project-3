@@ -3,6 +3,7 @@
 - [x] Create `.txt` to `.dat` file converting subroutine (located at `000-CONVERT-TXT2DAT`) | _Test passed_
 - [ ] Create **screen section** (in charge by [Savi]())
 - [ ] Create and test **search** subroutine [match key and display] (in charge by [Cam]())
+- [ ] Search function should display correctly on screen section [update screen section]
 - [ ] Create **update** subroutine [delete and insert, file may need to be sorted] (in charge by [Stefan]())  
         Notes from prof: There are two transactions that must be used to update records in the Indexed Sequential Student File   
         For Student Number 111119 process a payment of  50.00 against the tuition owed.    
@@ -13,8 +14,7 @@
 - [x] Migrate student average subprogram to external file, use CALL to invoke
 - [ ] Confirm part-3 is done and merge (in charge by [Ahmad]())
 - [ ] Merge subroutines
-- [ ] Make sure output report is intact and updates when we do a transaction (substract from tuition)
-- [ ] Test the whole thing
+- [ ] Test to make sure output report is intact and updates when we do a transaction (substract from tuition)
 - [ ] Documentation
 
 ### Git commands
