@@ -21,7 +21,7 @@
 
 git|Command
 -|-
-branch|`git branch (branch)` then `git checkout (branch)`
+branch|`git branch (branch)` then `git switch (branch)`
 pull|`git pull origin (branch)`
 commit|`git add .` then `git commit -am "message"`
 push|`git push -u origin (branch)`
