@@ -6,19 +6,19 @@
       ******************************************************************
        IDENTIFICATION DIVISION.
        PROGRAM-ID. PROJECT-3-SEARCH.
-
        ENVIRONMENT DIVISION.
        INPUT-OUTPUT SECTION.
        FILE-CONTROL.
            SELECT STUDENT-RECORD-FILE
-               ASSIGN TO "..\STUFILE.dat"
+               ASSIGN TO ".\STUFILE.txt"
                ORGANIZATION IS INDEXED
                ACCESS MODE IS DYNAMIC
                RECORD KEY IS STUDENT-NUMBER.
-
        DATA DIVISION.
        FILE SECTION.
-       FD STUDENT-RECORD-FILE.
+       FD STUDENT-RECORD-FILE
+           DATA RECORD IS FILE-RECORD.
+
        01 STUDENT-FILE-RECORD.
            05 STUDENT-NUMBER PIC 9(6).
            05 TUITION-OWED PIC 9(4)V99.
@@ -34,7 +34,6 @@
            05 COURSE-AVERAGE-4 PIC 9(3).
            05 COURSE-CODE-5 PIC X(7).
            05 COURSE-AVERAGE-5 PIC 9(3).
-
        WORKING-STORAGE SECTION.
        01 USER-KEY PIC 9(6).
        01 EOF-FLAG PIC X VALUE 'N'.
@@ -54,14 +53,12 @@
            05 FOUND-COURSE-AVERAGE-4 PIC 9(3).
            05 FOUND-COURSE-CODE-5 PIC X(7).
            05 FOUND-COURSE-AVERAGE-5 PIC 9(3).
-
        PROCEDURE DIVISION.
        MAIN-PROCEDURE.
            SEARCH-FILE-BY-KEY.
                PERFORM ACCEPT-USER-KEY.
                PERFORM INITIALIZE-FILE.
-               PERFORM FIND-MATCH.
-               DISPLAY FOUND-STUDENT-RECORD.
+               PERFORM FIND-MATCH UNTIL EOF-FLAG = 'Y'.
                PERFORM CLOSE-FILE.
                STOP RUN.
 
@@ -80,6 +77,7 @@
                        IF USER-KEY = STUDENT-NUMBER
                            MOVE STUDENT-FILE-RECORD
                            TO FOUND-STUDENT-RECORD
+                           MOVE 'Y' TO EOF-FLAG
                        END-IF
                    END-READ.
 
