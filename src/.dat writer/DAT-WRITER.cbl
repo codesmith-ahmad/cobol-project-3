@@ -4,9 +4,9 @@
        ENVIRONMENT DIVISION.
        INPUT-OUTPUT SECTION.
        FILE-CONTROL.
-           SELECT TXT-FILE ASSIGN TO "../../STUFILE.txt"
+           SELECT TXT-FILE ASSIGN TO "../STUFILE.txt"
                ORGANIZATION IS LINE SEQUENTIAL.
-           SELECT DAT-FILE ASSIGN TO "../../STUFILE.dat"
+           SELECT DAT-FILE ASSIGN TO "../STUFILE.dat"
                ORGANIZATION IS INDEXED
                ACCESS MODE IS SEQUENTIAL
                RECORD KEY IS F1
@@ -58,7 +58,7 @@
 
        MOVE 0 TO F1. MOVE 9999.99 TO F2.
        MOVE "-------------------NAME1----------------" TO F3.
-       MOVE "YYYYYY" TO F4.
+       MOVE "YYYYYY"  TO F4.
        MOVE "XXXXXXX" TO F5 MOVE 999 TO F6.
        MOVE "XXXXXXX" TO F7 MOVE 999 TO F8.
        MOVE "XXXXXXX" TO F9 MOVE 999 TO F10.
@@ -70,7 +70,7 @@
 
        MOVE 1 TO F1. MOVE 9999.99 TO F2.
        MOVE "-------------------NAME2----------------" TO F3.
-       MOVE "YYYYYY" TO F4.
+       MOVE "YYYYYY"  TO F4.
        MOVE "XXXXXXX" TO F5 MOVE 999 TO F6.
        MOVE "XXXXXXX" TO F7 MOVE 999 TO F8.
        MOVE "XXXXXXX" TO F9 MOVE 999 TO F10.
@@ -82,7 +82,7 @@
 
        MOVE 2 TO F1. MOVE 9999.99 TO F2.
        MOVE "-------------------NAME3----------------" TO F3.
-       MOVE "YYYYYY" TO F4.
+       MOVE "YYYYYY"  TO F4.
        MOVE "XXXXXXX" TO F5 MOVE 999 TO F6.
        MOVE "XXXXXXX" TO F7 MOVE 999 TO F8.
        MOVE "XXXXXXX" TO F9 MOVE 999 TO F10.
