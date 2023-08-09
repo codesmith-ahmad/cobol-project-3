@@ -109,8 +109,6 @@
                05 EOF-TABLE PIC X VALUE "N".
                05 EOF PIC 9 VALUE 0.
 
-           COPY "../PROGRAM-TABLE.cpy".
-
        PROCEDURE DIVISION.
        100-MAIN.
            PERFORM 201-OPEN-FILES.
