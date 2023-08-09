@@ -109,6 +109,16 @@
                05 EOF-TABLE PIC X VALUE "N".
                05 EOF PIC 9 VALUE 0.
 
+      *     COPY "./PROGRAM-FILE".
+           01 PROGRAM-TABLE.
+               05 PROGRAM-TABLE-ENTRY OCCURS 20 TIMES INDEXED T-ENTRY.
+                   10 PROGRAM-TABLE-CODE PIC X(6).
+                   10 PROGRAM-TABLE-NAME PIC X(20).
+
+           01 COURSE-AVERAGES.
+               05 COURSE-AVG-ROW OCCURS 20 TIMES INDEXED I.
+                   10 COURSE-AVG PIC 999.
+
        PROCEDURE DIVISION.
        100-MAIN.
            PERFORM 201-OPEN-FILES.

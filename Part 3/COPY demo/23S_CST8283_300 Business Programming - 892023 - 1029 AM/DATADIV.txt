@@ -1,0 +1,15 @@
+       01  STUDENT-RECORD-IN.
+           05 STUDENT-NUMBER  PIC 9(6).
+           05 TUITION-OWED    PIC 9(4)V99.
+           05 STUDENT-NAME    PIC X(40).
+           05 PROGRAM-CODE    PIC X(5).
+           05 COURSE-CODE-1   PIC X(7).
+           05 AVERAGE-1       PIC 9(3).
+           05 COURSE-CODE-2   PIC X(7).
+           05 AVERAGE-2       PIC 9(3).
+           05 COURSE-CODE-3   PIC X(7).
+           05 AVERAGE-3       PIC 9(3).
+           05 COURSE-CODE-4   PIC X(7).
+           05 AVERAGE-4       PIC 9(3).
+           05 COURSE-CODE-5   PIC X(7).
+           05 AVERAGE-5       PIC 9(3).
