@@ -32,9 +32,7 @@
 
        FILE SECTION.
            FD PROGRAM-FILE.
-           01 PROGRAM-RECORD.
-               05 PROGRAM-CODE     PIC X(6).
-               05 PROGRAM-NAME     PIC X(20).
+           COPY "./PROGRAM-FILE-DESCRIPTION.txt".
 
            FD STUDENT-FILE.
            01 STUDENT-RECORD.
