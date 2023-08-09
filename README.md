@@ -11,7 +11,7 @@
 - [ ] Make sur the average calculator module is called correctly (part-3)
 - [ ] Put all the pieces together
 - [ ] Test that output report is out 
-- [ ] Documentation
+- [ ] Function chart
 
 ### Git commands
 
