@@ -22,12 +22,6 @@ pull|`git pull origin (branch)`
 commit|`git add .` then `git commit -am "message"`
 push|`git push -u origin (branch)`
 
-[there's a git GUI in windows](git.png)
-
-- How to create indexed sequential file
-- How to read indexed sequential file
-- How to use CALL and modules
-
 <br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br>
 
 <a id="click"></a>
