@@ -13,7 +13,7 @@
        INPUT-OUTPUT SECTION.
        FILE-CONTROL.
       *    List of programs.
-            SELECT PROGRAM-FILE ASSIGN TO "../PROGRAM"
+            SELECT PROGRAM-FILE ASSIGN TO "../PROGRAM.txt"
                 ORGANIZATION IS LINE SEQUENTIAL.
       *    Raw input data to be converted to .dat.
             SELECT STUDENT-FILE ASSIGN TO "../STUFILE.txt"
@@ -32,7 +32,9 @@
 
        FILE SECTION.
            FD PROGRAM-FILE.
-           COPY "./PROGRAM-FILE-DESCRIPTION.txt".
+           01 PROGRAM-RECORD.
+               05 PROGRAM-CODE     PIC X(6).
+               05 PROGRAM-NAME     PIC X(20).
 
            FD STUDENT-FILE.
            01 STUDENT-RECORD.
@@ -83,9 +85,6 @@
            01 FILE-STATUS PIC X(2).
            01 CACHE       PIC X(110).
 
-           01 PROGRAM-TABLE.
-           COPY "./PROGRAM-FILE-DESCRIPTION".
-
            01 COLUMN-HEADER.
                05 FILLER PIC X(40) VALUE "NAME".
                05 FILLER PIC X(3).
@@ -109,6 +108,12 @@
                05 SEARCH-FLAG PIC X VALUE "N".
                05 EOF-TABLE PIC X VALUE "N".
                05 EOF PIC 9 VALUE 0.
+
+           COPY './PROGRAM-FILE.cpy'.
+
+           01 COURSE-AVERAGES.
+               05 COURSE-AVG-ROW OCCURS 20 TIMES INDEXED I.
+                   10 COURSE-AVG PIC 999.
 
        PROCEDURE DIVISION.
        100-MAIN.
@@ -187,10 +192,9 @@
                ADD 1 TO T-ENTRY.
 
        402-GET-STUDENT-AVERAGE.
-           MOVE 0 TO STUDENT-AVG.
-           ADD COURSE-AVG-1 COURSE-AVG-2 COURSE-AVG-3 COURSE-AVG-4
-               COURSE-AVG-5 TO STUDENT-AVG.
-           DIVIDE STUDENT-AVG BY 5 GIVING STUDENT-AVG-OUT ROUNDED.
+
+           CALL 'CALC-AVERAGE' USING STUDENT-AVG
+           MOVE STUDENT-AVG TO STUDENT-AVG-OUT.
 
        403-SEARCH.
            PERFORM VARYING T-ENTRY FROM 1 BY 1
