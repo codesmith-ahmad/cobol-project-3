@@ -53,7 +53,6 @@
            PERFORM CLONE-FILE.
            PERFORM PUT-YOUR-UPDATING-CODE-HERE.
            PERFORM COMPARE-FILES.
-           CLOSE DATA-FILE.
 
        CLONE-FILE.
            OPEN INPUT DATA-FILE OUTPUT COPY-FILE.
@@ -82,6 +81,7 @@
            END-PERFORM.
            DISPLAY " ".
            DISPLAY "TOTAL RECORDS: " COUNTER.
+           close DATA-FILE COPY-FILE.
 
 
 
