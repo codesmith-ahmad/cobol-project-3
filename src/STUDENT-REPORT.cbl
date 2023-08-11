@@ -24,7 +24,7 @@
       *    Indexed file converted from .txt
             SELECT INDEXED-FILE ASSIGN TO "../STUFILE.dat"
                 ORGANIZATION IS INDEXED
-                ACCESS MODE IS SEQUENTIAL
+                ACCESS MODE IS RANDOM
                 RECORD KEY IS I-STUDENT-NUMBER
                 FILE STATUS IS FILE-STATUS.
 

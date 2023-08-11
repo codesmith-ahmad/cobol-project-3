@@ -9,13 +9,13 @@
        FILE-CONTROL.
       * Change names
            SELECT DATA-FILE
-             ASSIGN "STUFILE.dat"
+             ASSIGN "../STUFILE.dat"
              ORGANIZATION IS INDEXED
-             ACCESS MODE IS  SEQUENTIAL
+             ACCESS MODE IS RANDOM
              RECORD KEY IS STUDENT-NUMBER
              FILE STATUS IS FILE-STATUS.
            SELECT COPY-FILE
-             ASSIGN "COPY.txt"
+             ASSIGN "../COPY.txt"
              ORGANIZATION IS LINE SEQUENTIAL.
 
        DATA DIVISION.
@@ -56,7 +56,7 @@
            CLOSE DATA-FILE.
 
        CLONE-FILE.
-           OPEN INPUT DATA-FILE OUTPUT COPY-FILE.
+           OPEN I-O DATA-FILE OUTPUT COPY-FILE.
            PERFORM UNTIL EOF = 1
                READ DATA-FILE INTO CACHE1 AT END ADD 1 TO EOF END-READ
                MOVE CACHE1 TO OUTBOUND-RECORD
@@ -65,11 +65,12 @@
            CLOSE DATA-FILE COPY-FILE. MOVE 0 TO EOF.
 
        PUT-YOUR-UPDATING-CODE-HERE.
-           DISPLAY "PLACEHOLDER CODE. INSTRUCTIONS:".
-           DISPLAY "Delete this and put your logic here for updating".
-           DISPLAY "the .dat file. Make sure it overwrites the same".
-           DISPLAY "file it copied, don't make a new one.".
-           DISPLAY "Resolve conflicts".
+           MOVE 111111 TO STUDENT-NUMBER
+           MOVE "STEFAN STIVICIC " TO STUDENT-NAME
+           REWRITE STUDENT-RECORD
+            INVALID KEY DISPLAY "INVALID KEY AFTER UPDATE"
+            NOT INVALID KEY DISPLAY "UPDATE IS DONE"
+           END-REWRITE.
 
        COMPARE-FILES.
            OPEN INPUT DATA-FILE INPUT COPY-FILE.
