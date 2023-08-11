@@ -3,8 +3,8 @@
 - [x] Create `.txt` to `.dat` file converting subroutine (located at `000-CONVERT-TXT2DAT`) | _Test passed_
 - [ ] Create main **screen section**, just the appearance (in charge by [Savi]())
 - [ ] Have **search** subroutine **done** & **tested** (in charge by [Cam]())
-- [ ] Make screen section for displaying student info
-- [ ] Create **update** subroutine for handling tuition payments (in charge by [Stefan]())  
+- [x] Make screen section for displaying student info
+- [x] Create **update** subroutine for handling tuition payments (in charge by [Stefan]())  
         Notes from prof: [click](#click)
 - [ ] Test update subroutine, test units ready, called `TEST-UPDATE.cbl`
 - [ ] Put the program file description in a file with extension `.cpy` and make sure a program can reach it with no problem (part-3)
