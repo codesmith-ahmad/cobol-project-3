@@ -84,6 +84,7 @@
 
            01 FILE-STATUS PIC X(2).
            01 CACHE       PIC X(110).
+           01 VALID-INPUT PIC 9.
 
            01 PROGRAM-TABLE.
            COPY "PROGRAM-FILE-DESCRIPTION.cpy".
@@ -115,23 +116,54 @@
 
        PROCEDURE DIVISION.
 
-       700-NEW-MAIN.
-              PERFORM 801-INITIALIZATION.
-              PERFORM 802-PROCESS-USER-REQUESTS UNTIL EXIT-F = 1.
-              PERFORM 803-TERMINATION.
+       600-NEW-MAIN.
+              PERFORM 701-INITIALIZATION.
+              PERFORM 702-RUN-MAIN-MENU UNTIL EXIT-F = 1.
+              PERFORM 703-TERMINATION.
               STOP RUN.
 
-       801-INITIALIZATION.
+       701-INITIALIZATION.
            PERFORM 201-OPEN-FILES.
            PERFORM 302-READ-PROGRAM-TABLE.
 
-       802-PROCESS-USER-REQUESTS.
-           DISPLAY "INSERT MODULES HERE".
-           ADD 1 TO EXIT-F.
-           DISPLAY "EXIT-F " EXIT-F.
+       702-RUN-MAIN-MENU.
+           PERFORM 801-LOAD-MAIN-SCREEN.
+           PERFORM 802-HANDLE-USER-INPUT.
 
-       803-TERMINATION.
+       703-TERMINATION.
            PERFORM 203-CLOSE-FILES.
+
+       801-LOAD-MAIN-SCREEN.
+           DISPLAY "901-LOAD-MAIN-SCREEN".
+           DISPLAY "   (PLACEHOLDER SCREEN) LOAD MAIN SCREEN HERE.".
+           DISPLAY "   -----------------------".
+           DISPLAY "   MAIN MENU".
+           DISPLAY "   1. SEARCH STUDENT BY KEY".
+           DISPLAY "   2. GENERATE REPORT".
+           DISPLAY "   3. EXIT PROGRAM".
+           DISPLAY "   -----------------------".
+           DISPLAY "   Enter your choice: ".
+
+
+       802-HANDLE-USER-INPUT.
+           MOVE 0 TO VALID-INPUT.
+           PERFORM UNTIL VALID-INPUT = 3
+               DISPLAY "USER INTERACTION"
+               ADD 1 TO VALID-INPUT
+           END-PERFORM.
+           ADD 1 TO EXIT-F.
+           PERFORM 901-SEARCH-STUDENT.
+           PERFORM 902-UPDATE-TUITION.
+           PERFORM 903-GENERATE-REPORT.
+
+       901-SEARCH-STUDENT.
+           DISPLAY "SEARCH MODULE.".
+
+       902-UPDATE-TUITION.
+           DISPLAY "UPDATE MODULE.".
+
+       903-GENERATE-REPORT.
+           DISPLAY "GENERATE REPORT.".
 
       *             anything above this line is new
       *******************************************************************
