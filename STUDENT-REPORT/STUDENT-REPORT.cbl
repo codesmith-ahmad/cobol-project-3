@@ -13,7 +13,7 @@
        INPUT-OUTPUT SECTION.
        FILE-CONTROL.
       *    List of programs.
-            SELECT PROGRAM-FILE ASSIGN TO "../PROGRAM"
+            SELECT PROGRAM-FILE ASSIGN TO "../PROGRAM.txt"
                 ORGANIZATION IS LINE SEQUENTIAL.
       *    Raw input data to be converted to .dat.
             SELECT STUDENT-FILE ASSIGN TO "../STUFILE.txt"
@@ -32,7 +32,9 @@
 
        FILE SECTION.
            FD PROGRAM-FILE.
-           COPY "./PROGRAM-FILE-DESCRIPTION.txt".
+           01 PROGRAM-RECORD.
+               05 PROGRAM-CODE     PIC X(6).
+               05 PROGRAM-NAME     PIC X(20).
 
            FD STUDENT-FILE.
            01 STUDENT-RECORD.
@@ -84,7 +86,7 @@
            01 CACHE       PIC X(110).
 
            01 PROGRAM-TABLE.
-           COPY "./PROGRAM-FILE-DESCRIPTION".
+           COPY "PROGRAM-FILE-DESCRIPTION.cpy".
 
            01 COLUMN-HEADER.
                05 FILLER PIC X(40) VALUE "NAME".
