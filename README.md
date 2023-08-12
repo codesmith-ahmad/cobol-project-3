@@ -2,12 +2,12 @@
 
 - [x] Create `.txt` to `.dat` file converting subroutine (located at `000-CONVERT-TXT2DAT`) | _Test passed_
 - [ ] Create main **screen section**, just the appearance (in charge by [Savi]())
-- [ ] Have **search** subroutine **done** & **tested** (in charge by [Cam]())
+- [x] Have **search** subroutine **done** & **tested**
 - [x] Make screen section for displaying student info
 - [x] Create **update** subroutine for handling tuition payments (in charge by [Stefan]())  
         Notes from prof: [click](#click)
 - [ ] Test update subroutine, test units ready, called `TEST-UPDATE.cbl`
-- [ ] Put the program file description in a file with extension `.cpy` and make sure a program can reach it with no problem (part-3)
+- [x] Put the program table code in a file with extension `.cpy`
 - [ ] Make sur the average calculator module is called correctly (part-3)
 - [ ] Put all the pieces together
 - [ ] Test that output report is out 
