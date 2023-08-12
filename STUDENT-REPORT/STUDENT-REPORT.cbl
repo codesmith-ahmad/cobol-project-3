@@ -106,31 +106,57 @@
                05 TMP-COUNTER PIC 99.
 
            01 FLAGS.
-               05 EOF-STU PIC X VALUE "N".
-               05 EOF-PROG PIC X VALUE "N".
+               05 EOF-STU     PIC X VALUE "N".
+               05 EOF-PROG    PIC X VALUE "N".
                05 SEARCH-FLAG PIC X VALUE "N".
-               05 EOF-TABLE PIC X VALUE "N".
-               05 EOF PIC 9 VALUE 0.
+               05 EOF-TABLE   PIC X VALUE "N".
+               05 EOF         PIC 9 VALUE 0.
+               05 EXIT-F      PIC 9 VALUE 0.
 
        PROCEDURE DIVISION.
-       100-MAIN.
+
+       700-NEW-MAIN.
+              PERFORM 801-INITIALIZATION.
+              PERFORM 802-PROCESS-USER-REQUESTS UNTIL EXIT-F = 1.
+              PERFORM 803-TERMINATION.
+              STOP RUN.
+
+       801-INITIALIZATION.
            PERFORM 201-OPEN-FILES.
-           PERFORM 202-GENERATE-RECORDS.
+           PERFORM 302-READ-PROGRAM-TABLE.
 
-      *    FOR TESTING PURPOSES ONLY, FIGURE OUT WHERE TO PUT IT LATER
-           PERFORM 000-CONVERT-TXT2DAT.
-           DISPLAY "***********BEGIN TESTING**************".
-           PERFORM 001-TEST-CONVERT-TXT2DAT.
-           DISPLAY "***********END TESTING**************".
+       802-PROCESS-USER-REQUESTS.
+           DISPLAY "INSERT MODULES HERE".
+           ADD 1 TO EXIT-F.
+           DISPLAY "EXIT-F " EXIT-F.
 
+       803-TERMINATION.
            PERFORM 203-CLOSE-FILES.
-           STOP RUN.
+
+      *             anything above this line is new
+      *******************************************************************
+
+
+
+      *>  100-MAIN.
+      *>      PERFORM 201-OPEN-FILES.
+      *>      PERFORM 202-GENERATE-RECORDS.
+
+      *> *    FOR TESTING PURPOSES ONLY, FIGURE OUT WHERE TO PUT IT LATER
+      *>      PERFORM 000-CONVERT-TXT2DAT.
+      *>      DISPLAY "***********BEGIN TESTING**************".
+      *>      PERFORM 001-TEST-CONVERT-TXT2DAT.
+      *>      DISPLAY "***********END TESTING**************".
+
+      *>      PERFORM 203-CLOSE-FILES.
+      *>      STOP RUN.
 
        201-OPEN-FILES.
            OPEN INPUT  PROGRAM-FILE.
            OPEN INPUT  STUDENT-FILE.
            OPEN OUTPUT OUTPUT-FILE.
            OPEN OUTPUT INDEXED-FILE.
+           DISPLAY "FILES OPENED.".
 
        202-GENERATE-RECORDS.
            PERFORM 301-GENERATE-HEADER.
@@ -143,6 +169,7 @@
            CLOSE STUDENT-FILE.
            CLOSE  OUTPUT-FILE.
            CLOSE INDEXED-FILE.
+           DISPLAY "PROGRAM TERMINATED.".
 
        301-GENERATE-HEADER.
            MOVE COLUMN-HEADER TO STUDENT-OUTPUT-FILE.
