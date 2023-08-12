@@ -84,6 +84,7 @@
 
            01 FILE-STATUS PIC X(2).
            01 CACHE       PIC X(110).
+           01 CHOICE      PIC 9.
            01 VALID-INPUT PIC 9.
 
            01 PROGRAM-TABLE.
@@ -125,6 +126,7 @@
        701-INITIALIZATION.
            PERFORM 201-OPEN-FILES.
            PERFORM 302-READ-PROGRAM-TABLE.
+           PERFORM 000-CONVERT-TXT-2-DAT.
 
        702-RUN-MAIN-MENU.
            PERFORM 801-LOAD-MAIN-SCREEN.
@@ -144,26 +146,31 @@
            DISPLAY "   -----------------------".
            DISPLAY "   Enter your choice: ".
 
-
        802-HANDLE-USER-INPUT.
+           DISPLAY "USER INTERACTION".
            MOVE 0 TO VALID-INPUT.
-           PERFORM UNTIL VALID-INPUT = 3
-               DISPLAY "USER INTERACTION"
-               ADD 1 TO VALID-INPUT
+           PERFORM UNTIL VALID-INPUT = 1
+               ACCEPT CHOICE.
+               IF CHOICE = 1
+                   ADD 1 TO VALID-INPUT
+                   PERFORM 901-SEARCH-STUDENT ELSE
+               IF CHOICE = 2
+                   ADD 1 TO VALID-INPUT
+                   PERFORM 202-GENERATE-REPORT ELSE
+               IF CHOICE = 3
+                   ADD 1 TO VALID-INPUT
+                   ADD 1 TO EXIT-F
+               ELSE DISPLAY "Invalid choice. Please select 1, 2, or 3."
+               END-IF
            END-PERFORM.
            ADD 1 TO EXIT-F.
-           PERFORM 901-SEARCH-STUDENT.
            PERFORM 902-UPDATE-TUITION.
-           PERFORM 903-GENERATE-REPORT.
 
        901-SEARCH-STUDENT.
            DISPLAY "SEARCH MODULE.".
 
        902-UPDATE-TUITION.
            DISPLAY "UPDATE MODULE.".
-
-       903-GENERATE-REPORT.
-           DISPLAY "GENERATE REPORT.".
 
       *             anything above this line is new
       *******************************************************************
@@ -177,7 +184,7 @@
       *> *    FOR TESTING PURPOSES ONLY, FIGURE OUT WHERE TO PUT IT LATER
       *>      PERFORM 000-CONVERT-TXT2DAT.
       *>      DISPLAY "***********BEGIN TESTING**************".
-      *>      PERFORM 001-TEST-CONVERT-TXT2DAT.
+      *>      PERFORM 001-TEST-CONVERT-TXT-2-DAT.
       *>      DISPLAY "***********END TESTING**************".
 
       *>      PERFORM 203-CLOSE-FILES.
@@ -190,7 +197,8 @@
            OPEN OUTPUT INDEXED-FILE.
            DISPLAY "FILES OPENED.".
 
-       202-GENERATE-RECORDS.
+       202-GENERATE-REPORT.
+           DISPLAY "GENERATE REPORT.".
            PERFORM 301-GENERATE-HEADER.
            PERFORM 302-READ-PROGRAM-TABLE.
            PERFORM 304-PROCESS-AND-COUNT.
@@ -264,7 +272,7 @@
                    END-IF
                END-PERFORM.
 
-       000-CONVERT-TXT2DAT.
+       000-CONVERT-TXT-2-DAT.
            DISPLAY "ACCESSED 000".
            MOVE 0 TO EOF READ-COUNTER WRITE-COUNTER.
            PERFORM UNTIL EOF = 1
@@ -286,7 +294,7 @@
            END-PERFORM.
            DISPLAY "ADDED " WRITE-COUNTER " RECORDS".
 
-       001-TEST-CONVERT-TXT2DAT.
+       001-TEST-CONVERT-TXT-2-DAT.
       *    FILE IS SET AS OUTPUT. NEED TO RESET AS INPUT FOR READING
            CLOSE INDEXED-FILE. OPEN INPUT INDEXED-FILE.
            MOVE 0 TO EOF READ-COUNTER.
