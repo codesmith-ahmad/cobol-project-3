@@ -1,0 +1,172 @@
+      ******************************************************************
+      * Author: Stefan Stivicic, Andre Azevedo Da Rocha
+      *         ***PUT UR NAMES HERE!!***
+      * Date: August 8th, 2023.
+      * Purpose: PROJECT 3 PART II
+      * Tectonics: cobc
+      ******************************************************************
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. UPDATE-STUDENT-FILE.
+       ENVIRONMENT DIVISION.
+       INPUT-OUTPUT SECTION.
+       FILE-CONTROL.
+           SELECT STUDENT-DATA-FILE
+               ASSIGN "../STUFILE.dat"
+               ORGANIZATION IS INDEXED
+               ACCESS MODE IS RANDOM
+               RECORD KEY IS STUDENT-NUMBER
+               FILE STATUS IS FILE-STATUS.
+
+       DATA DIVISION.
+       FILE SECTION.
+       FD STUDENT-DATA-FILE.
+           01 STUDENT-RECORD.
+               05 STUDENT-NUMBER   PIC 9(6).
+               05 TUITION-OWED     PIC 9(4)V99.
+               05 STUDENT-NAME     PIC X(40).
+               05 PROGRAM-OF-STUDY PIC X(6).
+               05 COURSE-CODE-1    PIC X(7).
+               05 COURSE-AVG-1     PIC 9(3).
+               05 COURSE-CODE-2    PIC X(7).
+               05 COURSE-AVG-2     PIC 9(3).
+               05 COURSE-CODE-3    PIC X(7).
+               05 COURSE-AVG-3     PIC 9(3).
+               05 COURSE-CODE-4    PIC X(7).
+               05 COURSE-AVG-4     PIC 9(3).
+               05 COURSE-CODE-5    PIC X(7).
+               05 COURSE-AVG-5     PIC 9(3).
+
+
+       WORKING-STORAGE SECTION.
+
+       01 STUDENT-RECORD-WS.
+           05 STUDENT-NUMBER-WS    PIC 9(6).
+           05 TUITION-OWED-WS      PIC 9(4)V99.
+           05 STUDENT-NAME-WS      PIC X(40).
+           05 PROGRAM-OF-STUDY-WS  PIC X(6).
+           05 COURSE-CODE-1-WS     PIC X(7).
+           05 COURSE-AVG-1-WS      PIC 9(3).
+           05 COURSE-CODE-2-WS     PIC X(7).
+           05 COURSE-AVG-2-WS      PIC 9(3).
+           05 COURSE-CODE-3-WS     PIC X(7).
+           05 COURSE-AVG-3-WS      PIC 9(3).
+           05 COURSE-CODE-4-WS     PIC X(7).
+           05 COURSE-AVG-4-WS      PIC 9(3).
+           05 COURSE-CODE-5-WS     PIC X(7).
+           05 COURSE-AVG-5-WS      PIC 9(3).
+
+       01 FILE-STATUS PIC X(2).
+
+       01 DATA-FROM-SCREEN.
+           05 STUDENT-ID-IN-WS PIC X(6) VALUE SPACES.
+           05 PAYMENT PIC 9(4)V99.
+
+       01 FLAGS.
+           05 VALID-INPUT-FLAG PIC X VALUE "N".
+           05 EOF-FLAG PIC X(1) VALUE "X".
+           05 UPDATE-FLAG PIC X(1) VALUE "X".
+           05 UPDATED-FLAG PIC X(1) VALUE "X".
+
+       LINKAGE SECTION.
+           01 IN-STUDENT-NUMBER PIC 9(6).
+
+       SCREEN SECTION.
+       01 DATA-ENTRY-SCREEN.
+      *    SCREEN FOR INPUTING THE STUDENT NUMBER
+           05 INPUT-SECTION.
+
+           10 VALUE "INPUT STUDENT NUMBER" BLANK SCREEN
+           LINE 1 COLUMN 1.
+           10 VALUE "STUDENT ID: " LINE 5 COL 05.
+           10 STUDENT-ID-IN PIC X(6) TO STUDENT-ID-IN-WS
+               LINE 5 COL 17.
+           10 VALUE "LAST ENTERED: " LINE 7 COL 1.
+           10 LAST-ENTERED FROM STUDENT-ID-IN-WS LINE 7 COL 20.
+      *    SCREEN FOR DISPLAYING THE STUDENT RECORD
+           05 DISPLAY-SECTION.
+           10 STUDENT-NAME-D PIC X(40) FROM STUDENT-NAME-WS
+               BLANK SCREEN LINE 1 COLUMN 1.
+           10 VALUE "STUDENT #: " LINE 2 COLUMN 1.
+           10 STUDENT-NUMBER-D PIC 9(6) FROM STUDENT-NUMBER-WS
+               LINE 2 COLUMN 12.
+
+           10 VALUE "PROGRAM OF STUDY: " LINE 3 COLUMN 1.
+           10 PROGRAM-OF-STUDY-D PIC X(6) FROM PROGRAM-OF-STUDY-WS
+               LINE 3 COLUMN 19.
+           10 VALUE "COURSES" LINE 5 COLUMN 1.
+
+           10 COURSE-CODE-1-D  FROM COURSE-CODE-1-WS LINE 7 COLUMN 1.
+           10 VALUE "GRADE: " LINE 7 COLUMN 9.
+           10 COURSE-AVG-1-D FROM COURSE-AVG-1-WS LINE 7 COLUMN 16.
+
+           10 COURSE-CODE-2-D  FROM COURSE-CODE-2-WS LINE 8 COLUMN 1.
+           10 VALUE "GRADE: " LINE 8 COLUMN 9.
+           10 COURSE-AVG-2-D FROM COURSE-AVG-2-WS LINE 8 COLUMN 16.
+
+           10 COURSE-CODE-3-D FROM COURSE-CODE-3-WS LINE 9 COLUMN 1.
+           10 VALUE "GRADE: " LINE 9 COLUMN 9.
+           10 COURSE-AVG-3-D FROM COURSE-AVG-3-WS LINE 9 COLUMN 16.
+
+           10 COURSE-CODE-4-D  FROM COURSE-CODE-4-WS LINE 10 COLUMN 1.
+           10 VALUE "GRADE: " LINE 10 COLUMN 9.
+           10 COURSE-AVG-4-D FROM COURSE-AVG-4-WS LINE 10 COLUMN 16.
+
+           10 COURSE-CODE-5-D  FROM COURSE-CODE-5-WS LINE 11 COLUMN 1.
+           10 VALUE "GRADE: " LINE 11 COLUMN 9.
+           10 COURSE-AVG-5-D FROM COURSE-AVG-5-WS LINE 11 COLUMN 16.
+
+           10 VALUE "TUITION-OWED: " LINE 13 COLUMN 1.
+           10 TUITION-OWED-D PIC Z,ZZ9.99
+           FROM TUITION-OWED-WS LINE 13 COLUMN 15.
+           10 VALUE "Do you want to update this record? (Y/N)"
+               LINE 15 COLUMN 1.
+           10 UPDATE-IN PIC X TO UPDATE-FLAG LINE 13 COLUMN 42.
+
+      *SCREEN FOR UPDATING THE STUDENT RECORD
+           05 UPDATE-SECTION.
+           10 VALUE "MAKING PAYMENT FOR..."
+           BLANK SCREEN LINE 1 COLUMN 1.
+           10 STUDENT-NAME-U PIC X(40) FROM STUDENT-NAME-WS
+               LINE 2 COLUMN 1.
+           10 VALUE "STUDENT #: " LINE 3 COLUMN 1.
+           10 STUDENT-NUMBER-U PIC 9(6) FROM STUDENT-NUMBER-WS
+               LINE 3 COLUMN 12.
+           10 VALUE "ENTER PAYMENT: " LINE 5 COLUMN 1.
+
+           10 TUITION-OWED-D PIC ZZZ9.99 TO PAYMENT LINE 5 COLUMN 16.
+
+       PROCEDURE DIVISION.
+
+       MAIN-PROCEDURE.
+           MOVE IN-STUDENT-NUMBER TO STUDENT-NUMBER-WS.
+      *     PERFORM 100-INITIALIZE-FILE
+           PERFORM 300-GET-STUDENT-DATA
+           PERFORM 100-DISPLAY-UPDATE-SECTION
+           IF UPDATED-FLAG = "Y"
+               PERFORM WRITE-UPDATED-TO-FILE
+           END-IF
+           CLOSE STUDENT-DATA-FILE
+           GOBACK.
+
+           100-DISPLAY-UPDATE-SECTION.
+           DISPLAY UPDATE-SECTION.
+           ACCEPT UPDATE-SECTION.
+
+       300-GET-STUDENT-DATA.
+           MOVE STUDENT-NUMBER-WS TO STUDENT-NUMBER.
+           READ STUDENT-DATA-FILE
+               INVALID KEY DISPLAY "INVALID KEY: STUDENT NOT FOUND"
+               NOT INVALID KEY
+                   MOVE STUDENT-RECORD TO STUDENT-RECORD-WS
+                   MOVE "Y" TO UPDATED-FLAG
+           END-READ.
+
+       WRITE-UPDATED-TO-FILE.
+           SUBTRACT PAYMENT FROM TUITION-OWED GIVING TUITION-OWED-WS.
+           MOVE STUDENT-RECORD-WS TO STUDENT-RECORD
+           REWRITE STUDENT-RECORD
+               INVALID KEY DISPLAY "INVALID KEY AFTER UPDATE"
+               NOT INVALID KEY DISPLAY "UPDATE IS DONE"
+           END-REWRITE.
+
+       GOBACK.

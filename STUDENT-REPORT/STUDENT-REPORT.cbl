@@ -1,7 +1,11 @@
 ******************************************************************
-      * Author:    Stefan Stivicic
+      * Author:
       *            Andre Azevedo de Rocha
-      *            Ahmad Al-Jabbouri
+      *            Savindya Chamini
+      *            Stefan Stivicic - 041072300
+      *             Thang Chu - 040 905 065
+      *             Camryn Collis 041081877
+      *             Ahmad Al-Jabbouri 041068196
       * Date: 2023 August 5th
       * Purpose:
       * Tectonics: cobc
@@ -24,7 +28,7 @@
       *    Indexed file converted from .txt
             SELECT INDEXED-FILE ASSIGN TO "../STUFILE.dat"
                 ORGANIZATION IS INDEXED
-                ACCESS MODE IS SEQUENTIAL
+                ACCESS MODE IS RANDOM
                 RECORD KEY IS I-STUDENT-NUMBER
                 FILE STATUS IS FILE-STATUS.
 
@@ -84,10 +88,13 @@
 
            01 FILE-STATUS PIC X(2).
            01 CACHE       PIC X(110).
-           01 CHOICE      PIC 9.
+           01 CHOICE      PIC X.
            01 VALID-INPUT PIC 9.
            01 SEARCH-MODULE PIC X(99) VALUE "project3search".
-           01 UPDATE-MODULE PIC X(99) VALUE "./bin/xxx.dll".
+           01 UPDATE-MODULE PIC X(99) VALUE "UPDATE-STUDENT-FILE".
+           01 UPDATED-FLAG PIC X.
+           01 TUITION-PAYMENT       PIC 9(5)V99.
+           01 PAUSE PIC A.
 
            01 PROGRAM-TABLE.
            COPY "PROGRAM-FILE-DESCRIPTION.cpy".
@@ -117,6 +124,40 @@
                05 EOF-TABLE   PIC X VALUE "N".
                05 EOF         PIC 9 VALUE 0.
                05 EXIT-F      PIC 9 VALUE 0.
+
+           01 DATA-FROM-SCREEN.
+           05 STUDENT-ID-IN-WS PIC X(6) VALUE SPACES.
+           05 PAYMENT PIC 9(4)V99.
+
+           01  STUDENT-RECORD-WS.
+           05 STUDENT-NUMBER-WS     PIC 9(6).
+           05 TUITION-OWED-WS       PIC 9(4)V99.
+           05 STUDENT-NAME-WS       PIC X(40).
+           05 PROGRAM-OF-STUDY-WS   PIC X(5).
+           05 COURSE-CODE-1-WS      PIC X(7).
+           05 COURSE-AVERAGE-1-WS   PIC 9(3).
+           05 COURSE-CODE-2-WS      PIC X(7).
+           05 COURSE-AVERAGE-2-WS   PIC 9(3).
+           05 COURSE-CODE-3-WS      PIC X(7).
+           05 COURSE-AVERAGE-3-WS   PIC 9(3).
+           05 COURSE-CODE-4-WS      PIC X(7).
+           05 COURSE-AVERAGE-4-WS   PIC 9(3).
+           05 COURSE-CODE-5-WS      PIC X(7).
+           05 COURSE-AVERAGE-5-WS   PIC 9(3).
+
+       SCREEN SECTION.
+       01 DATA-ENTRY-SCREEN.
+           05 UPDATE-SECTION.
+           10 VALUE "MAKING PAYMENT FOR..."
+           BLANK SCREEN LINE 1 COLUMN 1.
+           10 STUDENT-NAME-U PIC X(40) FROM STUDENT-NAME
+               LINE 2 COLUMN 1.
+           10 VALUE "STUDENT #: " LINE 3 COLUMN 1.
+           10 STUDENT-NUMBER-U PIC 9(6) FROM STUDENT-NUMBER
+               LINE 3 COLUMN 12.
+           10 VALUE "ENTER PAYMENT: " LINE 5 COLUMN 1.
+
+           10 TUITION-OWED-D PIC ZZZ9.99 TO PAYMENT LINE 5 COLUMN 16.
 
        PROCEDURE DIVISION.
 
@@ -157,11 +198,15 @@
                ACCEPT CHOICE
                IF CHOICE = 1
                    ADD 1 TO VALID-INPUT
-                   PERFORM 901-SEARCH-STUDENT-SCREEN ELSE
-               IF CHOICE = 2
+                   PERFORM 901-SEARCH-STUDENT-SCREEN
+                   DISPLAY "DO YOU WANT TO MAKE A PAYMENT? [Y/N]"
+                   ACCEPT CHOICE
+                       IF CHOICE = 'Y' PERFORM 902-UPDATE-TUITION-SCREEN
+                       ELSE            PERFORM 702-RUN-MAIN-MENU
+               ELSE IF CHOICE = 2
                    ADD 1 TO VALID-INPUT
-                   PERFORM 202-GENERATE-REPORT ELSE
-               IF CHOICE = 3
+                   PERFORM 202-GENERATE-REPORT
+               ELSE IF CHOICE = 3
                    PERFORM 703-TERMINATION
                ELSE
                    DISPLAY "Invalid choice. Please select 1, 2, or 3."
@@ -174,12 +219,23 @@
            MOVE " " TO STUDENT-RECORD.
            CALL SEARCH-MODULE USING STUDENT-RECORD.
            DISPLAY "RECEIVED FROM SEARCH: " STUDENT-RECORD.
-           PERFORM 902-UPDATE-TUITION-SCREEN.
 
        902-UPDATE-TUITION-SCREEN.
-           DISPLAY "902: NEED SCREEN HERE *********************".
-           CALL UPDATE-MODULE.
+           MOVE STUDENT-RECORD TO STUDENT-RECORD-WS.
+           PERFORM 002-COMPUTE-TUITION-OWED.
+           PERFORM 003-REWRITE-STUDENT-RECORD.
 
+       002-COMPUTE-TUITION-OWED.
+           COMPUTE TUITION-OWED-WS = TUITION-OWED-WS - TUITION-PAYMENT.
+
+           003-REWRITE-STUDENT-RECORD.
+           REWRITE INDEXED-RECORD FROM STUDENT-RECORD-WS
+           INVALID KEY PERFORM 407-ERROR-RTN NOT INVALID KEY
+           DISPLAY "RECORD SAVED".
+
+       407-ERROR-RTN.
+           DISPLAY "STUDENT RECORD NOT FOUND FOR ID: ", STUDENT-NUMBER.
+           ACCEPT PAUSE.
 
       *             anything above this line is new
       *******************************************************************
