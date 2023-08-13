@@ -86,6 +86,8 @@
            01 CACHE       PIC X(110).
            01 CHOICE      PIC 9.
            01 VALID-INPUT PIC 9.
+           01 SEARCH-MODULE PIC X(99) VALUE "project3search".
+           01 UPDATE-MODULE PIC X(99) VALUE "./bin/xxx.dll".
 
            01 PROGRAM-TABLE.
            COPY "PROGRAM-FILE-DESCRIPTION.cpy".
@@ -101,6 +103,7 @@
 
            01 TEMP-VALUES.
                05 STUDENT-AVG PIC 9(3)V9.
+               05 RECORD-KEY  PIC 9(6).
 
            01 COUNTERS.
                05 READ-COUNTER PIC 99.
@@ -150,7 +153,8 @@
            DISPLAY "USER INTERACTION".
            MOVE 0 TO VALID-INPUT.
            PERFORM UNTIL VALID-INPUT = 1
-               ACCEPT CHOICE.
+               DISPLAY "1. Search     2. Generate report     3. exit"
+               ACCEPT CHOICE
                IF CHOICE = 1
                    ADD 1 TO VALID-INPUT
                    PERFORM 901-SEARCH-STUDENT ELSE
@@ -158,16 +162,20 @@
                    ADD 1 TO VALID-INPUT
                    PERFORM 202-GENERATE-REPORT ELSE
                IF CHOICE = 3
+                   STOP RUN
                    ADD 1 TO VALID-INPUT
                    ADD 1 TO EXIT-F
-               ELSE DISPLAY "Invalid choice. Please select 1, 2, or 3."
+               ELSE
+                   DISPLAY "Invalid choice. Please select 1, 2, or 3."
                END-IF
            END-PERFORM.
            ADD 1 TO EXIT-F.
-           PERFORM 902-UPDATE-TUITION.
+      *     PERFORM 902-UPDATE-TUITION.
 
        901-SEARCH-STUDENT.
-           DISPLAY "SEARCH MODULE.".
+           MOVE " " TO STUDENT-RECORD.
+           CALL SEARCH-MODULE USING STUDENT-RECORD.
+           DISPLAY "RECEIVED FROM SEARCH: " STUDENT-RECORD.
 
        902-UPDATE-TUITION.
            DISPLAY "UPDATE MODULE.".
@@ -194,7 +202,7 @@
            OPEN INPUT  PROGRAM-FILE.
            OPEN INPUT  STUDENT-FILE.
            OPEN OUTPUT OUTPUT-FILE.
-           OPEN OUTPUT INDEXED-FILE.
+           OPEN I-O    INDEXED-FILE.
            DISPLAY "FILES OPENED.".
 
        202-GENERATE-REPORT.
@@ -279,7 +287,7 @@
                READ STUDENT-FILE AT END ADD 1 TO EOF NOT AT END
                    ADD 1 TO READ-COUNTER
                    DISPLAY "<<< STUFILE.txt: " STUDENT-RECORD
-      -                                   " (reading #" READ-COUNTER ")"
+                   ,                      " (reading #" READ-COUNTER ")"
                    PERFORM POPULATE-INDEXED-RECORD
                    WRITE INDEXED-RECORD
                        INVALID KEY
@@ -288,7 +296,7 @@
                            ADD 1 TO WRITE-COUNTER
                            DISPLAY "KEY OK"
                            DISPLAY ">>> STUFILE.dat: " INDEXED-RECORD
-      -                                  " (writing #" WRITE-COUNTER ")"
+                           ,             " (writing #" WRITE-COUNTER ")"
                    END-WRITE
                END-READ
            END-PERFORM.
