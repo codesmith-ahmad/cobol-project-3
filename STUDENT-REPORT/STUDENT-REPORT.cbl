@@ -124,7 +124,6 @@
               PERFORM 701-INITIALIZATION.
               PERFORM 702-RUN-MAIN-MENU UNTIL EXIT-F = 1.
               PERFORM 703-TERMINATION.
-              STOP RUN.
 
        701-INITIALIZATION.
            PERFORM 201-OPEN-FILES.
@@ -137,6 +136,7 @@
 
        703-TERMINATION.
            PERFORM 203-CLOSE-FILES.
+           STOP RUN.
 
        801-LOAD-MAIN-SCREEN.
            DISPLAY "901-LOAD-MAIN-SCREEN".
@@ -157,28 +157,29 @@
                ACCEPT CHOICE
                IF CHOICE = 1
                    ADD 1 TO VALID-INPUT
-                   PERFORM 901-SEARCH-STUDENT ELSE
+                   PERFORM 901-SEARCH-STUDENT-SCREEN ELSE
                IF CHOICE = 2
                    ADD 1 TO VALID-INPUT
                    PERFORM 202-GENERATE-REPORT ELSE
                IF CHOICE = 3
-                   STOP RUN
-                   ADD 1 TO VALID-INPUT
-                   ADD 1 TO EXIT-F
+                   PERFORM 703-TERMINATION
                ELSE
                    DISPLAY "Invalid choice. Please select 1, 2, or 3."
                END-IF
            END-PERFORM.
            ADD 1 TO EXIT-F.
-      *     PERFORM 902-UPDATE-TUITION.
 
-       901-SEARCH-STUDENT.
+       901-SEARCH-STUDENT-SCREEN.
+           DISPLAY "*****NEED SCREEN HERE 901*********************"
            MOVE " " TO STUDENT-RECORD.
            CALL SEARCH-MODULE USING STUDENT-RECORD.
            DISPLAY "RECEIVED FROM SEARCH: " STUDENT-RECORD.
+           PERFORM 902-UPDATE-TUITION-SCREEN.
 
-       902-UPDATE-TUITION.
-           DISPLAY "UPDATE MODULE.".
+       902-UPDATE-TUITION-SCREEN.
+           DISPLAY "902: NEED SCREEN HERE *********************".
+           CALL UPDATE-MODULE.
+
 
       *             anything above this line is new
       *******************************************************************
